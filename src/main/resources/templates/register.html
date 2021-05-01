@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>Sign up</title>
-    <link rel="stylesheet" href="http://localhost:8083/register.css">
+    <link rel="stylesheet" href="http://localhost:8081/register.css">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </head>
 <body>
@@ -12,7 +12,7 @@
         <div class="text">Register SAGA</div>
         <div th:if="${param.success}">
             <script>
-                    alert("You have successfully registered");
+                alert("You have successfully registered");
             </script>
         </div>
         <div th:if="${param.existed}">
@@ -20,61 +20,86 @@
                 alert("You have already registered");
             </script>
         </div>
-        <form th:action="@{/users/register} " method="post" th:object="${userDto}">
+        <form th:action="@{/users/register} " method="post" th:object="${userDto}" id="registerForm">
             <div class="data">
                 <label>Firstname</label>
-                <input type="text"  th:field="*{userDetails.firstName}">
-                <div style="color: red;font-size: 10px" th:if="${#fields.hasErrors('userDetails.firstName')}" th:errors="*{userDetails.firstName}">Error</div>
+                <input type="text" th:field="*{userDetails.firstName}">
+                <div style="color: red;font-size: 10px" th:if="${#fields.hasErrors('userDetails.firstName')}"
+                     th:errors="*{userDetails.firstName}">Error
+                </div>
             </div>
             <div class="data">
                 <label>Lastname</label>
-                <input type="text"  th:field="*{userDetails.lastName}">
-                <div style="color: red ;font-size: 10px" th:if="${#fields.hasErrors('userDetails.lastName')}" th:errors="*{userDetails.lastName}">Error</div>
+                <input type="text" th:field="*{userDetails.lastName}">
+                <div style="color: red ;font-size: 10px" th:if="${#fields.hasErrors('userDetails.lastName')}"
+                     th:errors="*{userDetails.lastName}">Error
+                </div>
             </div>
             <div class="data">
                 <label>Age</label>
-                <input type="text"  th:field="*{userDetails.age}">
-                <div style="color: red;font-size: 10px" th:if="${#fields.hasErrors('userDetails.age')}" th:errors="*{userDetails.age}">Error</div>
+                <input type="text" th:field="*{userDetails.age}">
+                <div style="color: red;font-size: 10px" th:if="${#fields.hasErrors('userDetails.age')}"
+                     th:errors="*{userDetails.age}">Error
+                </div>
             </div>
             <div class="data">
                 <label>Phone</label>
-                <input type="text"  th:field="*{userDetails.phoneNumber}">
-                <div style="color: red;font-size: 10px" th:if="${#fields.hasErrors('userDetails.phoneNumber')}" th:errors="*{userDetails.phoneNumber}">Error</div>
+                <input type="text" th:field="*{userDetails.phoneNumber}">
+                <div style="color: red;font-size: 10px" th:if="${#fields.hasErrors('userDetails.phoneNumber')}"
+                     th:errors="*{userDetails.phoneNumber}">Error
+                </div>
             </div>
             <div class="data">
                 <label>Username</label>
-                <input type="text"  th:field="*{username}">
+                <input type="text" th:field="*{username}">
             </div>
             <div class="data">
                 <label>Email</label>
-                <input type="text"  th:field="*{email}">
-                <div style="color: red;font-size: 10px" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Error</div>
+                <input type="text" th:field="*{email}">
+                <div style="color: red;font-size: 10px" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+                    Error
+                </div>
             </div>
             <div class="data">
                 <label>Password</label>
-                <input type="password" th:field="*{password}">
-                <div style="color: red;font-size: 10px" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Error</div>
+                <input type="password" th:field="*{password}" id="pas1">
+                <div style="color: red;font-size: 10px" th:if="${#fields.hasErrors('password')}"
+                     th:errors="*{password}">Error
+                </div>
             </div>
             <div class="data">
                 <label>Password (Confirm)</label>
-<!--                <script>-->
-<!--                    function checkpassword(){-->
-<!--                        var pas1=document.getElementById("pas1");-->
-<!--                        var pas2=document.getElementById("pas2");-->
-<!--                        if(pas1!=pas2){document.getElementById("message").innerHTML="password not empty"}-->
-<!--                    }-->
-<!--                </script>-->
-                <input type="password"  th:field="*{checkPassword}">
+                <input type="password" th:field="*{checkPassword}" id="pas2">
+                <div style="color: red;font-size: 10px; display:none" id="message" >
+                    passwords arent match
+                </div>
             </div>
             <div th:if="${param.check_dublicate_password}">
-                <div><h8>Check confirm password</h8></div>
+                <div>
+                    <h8>Check confirm password</h8>
+                </div>
             </div>
             <div class="btn">
                 <div class="inner"></div>
-                <button type="submit">register</button>
+                <button type="submit" id="submit">register</button>
             </div>
         </form>
     </div>
 </div>
 </body>
 </html>
+
+
+<script>
+    const form = document.getElementById('registerForm');
+    form.addEventListener('submit', checkpassword);
+    function checkpassword(e) {
+        var pas1 = document.getElementById("pas1");
+        var pas2 = document.getElementById("pas2");
+        document.getElementById("message").style.display ='none'
+        if (pas1.value !== pas2.value) {
+            e.preventDefault();
+            document.getElementById("message").style.display ='block'
+        }
+    }
+</script>
