@@ -27,7 +27,7 @@ public class UserDto {
     @NotEmpty(message = "Email should not be empty")
     private String email;
 
-    private String status;
+    private Boolean isActive;
 
     @Valid
     private UserDetailsDto userDetails;
@@ -37,7 +37,7 @@ public class UserDto {
         dto.setId(userEntity.getId());
         dto.setUsername(userEntity.getUsername());
         dto.setPassword(userEntity.getPassword());
-        dto.setStatus(userEntity.getStatus());
+        dto.setIsActive(userEntity.getIsActive());
         dto.setEmail(userEntity.getEmail());
         UserDetailsEntity userDetailsEntity = userEntity.getUserDetailsEntity();
         if(userDetailsEntity!=null){
@@ -49,7 +49,7 @@ public class UserDto {
     public static UserEntity mapDtoToEntity(UserDto userDto){
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername(userDto.getUsername());
-        userEntity.setStatus(userDto.getStatus());
+        userEntity.setIsActive(userDto.getIsActive());
         userEntity.setEmail(userDto.getEmail());
         return userEntity;
     }

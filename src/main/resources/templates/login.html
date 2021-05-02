@@ -1,33 +1,35 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" >
-  <head>
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+<head>
     <meta charset="utf-8">
-    <title>Popup Login Form Design | CodingNepal</title>
-    <link rel="stylesheet" href="login.css">
+    <title> Login </title>
+    <link rel="stylesheet" href="/login.css">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-  </head>
-  <body>
-    <div class="center">
-      <div class="container">
+</head>
+<body>
+<div class="center">
+    <div class="container">
         <div class="text">Login Form</div>
-        <form action="#">
-          <div class="data">
-            <label>Email or Phone</label>
-            <input type="text" >
-          </div>
-          <div class="data">
-            <label>Password</label>
-            <input type="password" >
-          </div>
-          <div class="forgot-pass"><a href="#">Forgot Password?</a></div>
-          <div class="btn">
-            <div class="inner"></div>
-            <button type="submit">login</button>
-          </div>
-          <div class="signup-link">Not a member? <a href="/users/register">Signup now</a></div>
+        <form action="#" th:action="@{/login} " method="post" th:object="${jwtRequest}" id="loginForm">
+            <div class="data">
+                <label>Username</label>
+                <input type="text" th:field="*{username}">
+            </div>
+            <div class="data">
+                <label>Password</label>
+                <input type="password" th:field="*{password}">
+                <div th:if="${param.badCredentials}" style="color: red;font-size: 10px">Bad Credentials
+                </div>
+            </div>
+            <div class="forgot-pass" style="margin-bottom: 20px"><a href="#">Forgot Password?</a></div>
+            <div class="btn">
+                <div class="inner"></div>
+                <button type="submit">login</button>
+            </div>
+            <div class="signup-link">Not a member? <a href="/users/register">Signup now</a></div>
         </form>
-      </div>
     </div>
+</div>
 
-  </body>
+</body>
 </html>

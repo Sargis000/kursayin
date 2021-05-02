@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user",uniqueConstraints = {@UniqueConstraint(columnNames = {"username","email_address"})})
+@Table(name = "user",uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -26,8 +26,12 @@ public class UserEntity {
     @Column(name = "password")
     private String password;
 
-    @Column (name = "status")
-    private String status;
+    @Column (name = "is_active")
+    private Boolean isActive;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    private RoleEntity role;
 
     @OneToOne()
     @JoinColumn(name = "user_details_id",referencedColumnName = "id")

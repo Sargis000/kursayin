@@ -3,31 +3,28 @@ package com.saga.kursayin.service;
 import org.springframework.stereotype.Service;
 
 import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import javax.mail.internet.*;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Properties;
 
 @Service
 public class EmailSender {
 
-    public void sendEmail(String to){
+    public void sendEmail(String to, Long id){
 
-        // Sender's email ID needs to be mentioned
         String from = "poghosyan.gurgen.99@gmail.com";
 
-        // Assuming you are sending email from through gmails smtp
         String host = "smtp.gmail.com";
 
-        // Get system properties
         Properties properties = System.getProperties();
 
-        // Setup mail server
         properties.put("mail.smtp.host", host);
         properties.put("mail.smtp.port", "465");
         properties.put("mail.smtp.ssl.enable", "true");
         properties.put("mail.smtp.auth", "true");
 
-        // Get the Session object.// and pass username and password
         Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
 
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -37,32 +34,29 @@ public class EmailSender {
             }
 
         });
-
-        // Used to debug SMTP issues
         session.setDebug(true);
 
         try {
-            // Create a default MimeMessage object.
+            InternetHeaders headers = new InternetHeaders();
+            headers.addHeader("Content-type", "text/html; charset=UTF-8");
+            String html = "Verify Account\n" +"\n<a href='http://localhost:8085/users/"+id +"/activate'>Click to activate</a>";
+            MimeBodyPart body = new MimeBodyPart(headers, html.getBytes("UTF-8"));
+
+            MimeMultipart multipart = new MimeMultipart();
+            multipart.addBodyPart(body);
+
             MimeMessage message = new MimeMessage(session);
 
-            // Set From: header field of the header.
             message.setFrom(new InternetAddress(from));
-
-            // Set To: header field of the header.
+            message.setContent(multipart);
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
-            // Set Subject: header field
-            message.setSubject("FU SAQO.");
-
-            // Now set the actual message
-            message.setText("HI EVERYONE." +
-                    ".");
+            message.setSubject("Verify your account");
 
             System.out.println("sending...");
-            // Send message
             Transport.send(message);
             System.out.println("Sent message successfully....");
-        } catch (MessagingException mex) {
+        } catch (MessagingException | UnsupportedEncodingException mex) {
             mex.printStackTrace();
         }
     }

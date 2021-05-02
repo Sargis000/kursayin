@@ -1,5 +1,6 @@
 package com.saga.kursayin.controller;
 
+import com.saga.kursayin.persistence.entity.UserEntity;
 import com.saga.kursayin.service.dto.UserDto;
 import com.saga.kursayin.service.UserService;
 import org.hibernate.exception.ConstraintViolationException;
@@ -45,6 +46,12 @@ public class UserController {
     @ModelAttribute("userDto")
     public UserDto userDto() {
         return new UserDto();
+    }
+
+    @GetMapping("{id}/activate")
+    public String activateUser(@PathVariable Long id){
+        userService.activateUser(id);
+        return "redirect:/login";
     }
 
     @GetMapping("/{id}")

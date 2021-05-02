@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>Sign up</title>
-    <link rel="stylesheet" href="http://localhost:8081/register.css">
+    <link rel="stylesheet"  href="/register.css">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </head>
 <body>
@@ -52,6 +52,9 @@
             <div class="data">
                 <label>Username</label>
                 <input type="text" th:field="*{username}">
+                <div style="color: red;font-size: 10px" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">
+                    Error
+                </div>
             </div>
             <div class="data">
                 <label>Email</label>
@@ -71,7 +74,7 @@
                 <label>Password (Confirm)</label>
                 <input type="password" th:field="*{checkPassword}" id="pas2">
                 <div style="color: red;font-size: 10px; display:none" id="message" >
-                    passwords arent match
+                    Passwords aren't match
                 </div>
             </div>
             <div th:if="${param.check_dublicate_password}">
