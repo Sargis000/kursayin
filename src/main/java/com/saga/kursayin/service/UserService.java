@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Map;
 
 @Service
 public class UserService {
@@ -48,7 +49,9 @@ public class UserService {
         userEntity.setRole(roleEntity);
         userEntity.setIsActive(false);
         UserEntity savedEntity = userRepository.save(userEntity);
-        emailSender.sendEmail(userDto.getEmail(),savedEntity.getId());
+        String html = "Verify Account\n" +"\n<a href='http://localhost:8085/users/"+userEntity.getId() +"/activate'>Click to activate</a>";
+        String text="Verify your account";
+        emailSender.sendEmail(userDto.getEmail(),html,text);
         return UserDto.mapEntityToDto(savedEntity);
     }
 
@@ -75,4 +78,22 @@ public class UserService {
         userEntity.setIsActive(true);
         userRepository.save(userEntity);
     }
+
+    public boolean checkemailinsystem(UserDto userDto){
+        UserEntity userEntity=UserDto.mapDtoToEntity(userDto);
+        userEntity= userRepository.findByEmail(userEntity.getEmail());
+
+        if(userEntity==null){
+            return false;
+        }
+        String html = "Click this link that change password\n" +"\n<a href='http://localhost:8085/users/"+userEntity.getId()+"/forgetpassword'>Link</a>";
+        String text="Change Password";
+        emailSender.sendEmail(userEntity.getEmail(),html,text);
+        return true;
+    }
+    public void setpassword( UserDto userDto){
+         UserEntity userEntity=UserDto.mapDtoToEntity(userDto);
+         userRepository.savepassword(userEntity.getPassword(),userEntity.getId());
+    }
+
 }

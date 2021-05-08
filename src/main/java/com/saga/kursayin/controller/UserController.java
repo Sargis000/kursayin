@@ -6,17 +6,17 @@ import com.saga.kursayin.service.UserService;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 
 import javax.validation.Valid;
-
 @Controller
 @RequestMapping("/users")
 public class UserController {
-
     private final UserService userService;
 
     @Autowired
@@ -43,10 +43,40 @@ public class UserController {
         return "redirect:/users/register?success";
     }
 
+
+    @GetMapping("{id}/forgetpassword")
+    public String ForgetPassword(Model model, @PathVariable Long id){
+        model.addAttribute("userpas", userService.getUser(id));
+        return "ForgetPasswordPage";
+    }
+
+    @GetMapping("/mailchange")
+    public String mailChengPassword(){
+        return "MailPageChangePassword";
+    }
+
+    @GetMapping("/checkemail")
+    public String checkEmail(@ModelAttribute UserDto userDto){
+       if(userService.checkemailinsystem(userDto)) {
+           return "redirect:/users/mailchange?success";
+       } else {
+           return "redirect:/users/mailchange?email_not_found";
+       }
+    }
+
+
+    @PostMapping("/changepassword/{id}")
+    public String changPassword(@ModelAttribute UserDto userDto){
+        userService.setpassword(userDto);
+        return "redirect:/login";
+    }
+
+
     @ModelAttribute("userDto")
     public UserDto userDto() {
         return new UserDto();
     }
+
 
     @GetMapping("{id}/activate")
     public String activateUser(@PathVariable Long id){

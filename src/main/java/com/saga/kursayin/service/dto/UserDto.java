@@ -48,6 +48,8 @@ public class UserDto {
 
     public static UserEntity mapDtoToEntity(UserDto userDto){
         UserEntity userEntity = new UserEntity();
+        userEntity.setId(userDto.getId());
+        userEntity.setPassword(userDto.getPassword());
         userEntity.setUsername(userDto.getUsername());
         userEntity.setIsActive(userDto.getIsActive());
         userEntity.setEmail(userDto.getEmail());

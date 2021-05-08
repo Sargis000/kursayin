@@ -12,7 +12,7 @@ import java.util.Properties;
 @Service
 public class EmailSender {
 
-    public void sendEmail(String to, Long id){
+    public void sendEmail(String to, String html,String text){
 
         String from = "poghosyan.gurgen.99@gmail.com";
 
@@ -39,7 +39,6 @@ public class EmailSender {
         try {
             InternetHeaders headers = new InternetHeaders();
             headers.addHeader("Content-type", "text/html; charset=UTF-8");
-            String html = "Verify Account\n" +"\n<a href='http://localhost:8085/users/"+id +"/activate'>Click to activate</a>";
             MimeBodyPart body = new MimeBodyPart(headers, html.getBytes("UTF-8"));
 
             MimeMultipart multipart = new MimeMultipart();
@@ -51,7 +50,7 @@ public class EmailSender {
             message.setContent(multipart);
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
-            message.setSubject("Verify your account");
+            message.setSubject(text);
 
             System.out.println("sending...");
             Transport.send(message);
