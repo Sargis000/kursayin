@@ -5,14 +5,12 @@ import org.springframework.stereotype.Service;
 import javax.mail.*;
 import javax.mail.internet.*;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Properties;
 
 @Service
 public class EmailSender {
 
-    public void sendEmail(String to, String html,String text){
+    public void sendEmail(String to, String html, String text) {
 
         String from = "poghosyan.gurgen.99@gmail.com";
 

@@ -1,19 +1,17 @@
 package com.saga.kursayin.controller;
 
-import com.saga.kursayin.persistence.entity.UserEntity;
-import com.saga.kursayin.service.dto.UserDto;
+import com.saga.kursayin.security.IdCrypto;
 import com.saga.kursayin.service.UserService;
-import org.hibernate.exception.ConstraintViolationException;
+import com.saga.kursayin.service.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-
 import javax.validation.Valid;
+
 @Controller
 @RequestMapping("/users")
 public class UserController {
@@ -30,13 +28,13 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String addUser(@Valid @ModelAttribute("userDto")  UserDto userDto,
+    public String addUser(@Valid @ModelAttribute("userDto") UserDto userDto,
                           BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return showRegisterForm();
         }
         try {
-                userService.addUser(userDto);
+            userService.addUser(userDto);
         } catch (Exception e) {
             return "redirect:/users/register?existed";
         }
@@ -45,29 +43,29 @@ public class UserController {
 
 
     @GetMapping("{id}/forgetpassword")
-    public String ForgetPassword(Model model, @PathVariable Long id){
-        model.addAttribute("userpas", userService.getUser(id));
+    public String forgetPassword(Model model, @PathVariable String id) {
+        model.addAttribute("userpas", userService.getUser(IdCrypto.decryptid(id)));
         return "ForgetPasswordPage";
     }
 
     @GetMapping("/mailchange")
-    public String mailChengPassword(){
+    public String mailChengPassword() {
         return "MailPageChangePassword";
     }
 
     @GetMapping("/checkemail")
-    public String checkEmail(@ModelAttribute UserDto userDto){
-       if(userService.checkemailinsystem(userDto)) {
-           return "redirect:/users/mailchange?success";
-       } else {
-           return "redirect:/users/mailchange?email_not_found";
-       }
+    public String checkEmail(@ModelAttribute UserDto userDto) {
+        if (userService.checkEmailInSystem(userDto)) {
+            return "redirect:/users/mailchange?success";
+        } else {
+            return "redirect:/users/mailchange?email_not_found";
+        }
     }
 
 
-    @PostMapping("/changepassword/{id}")
-    public String changPassword(@ModelAttribute UserDto userDto){
-        userService.setpassword(userDto);
+    @PostMapping("/{id}/changepassword")
+    public String changePassword(@ModelAttribute UserDto userDto) {
+        userService.setPassword(userDto);
         return "redirect:/login";
     }
 
@@ -79,7 +77,7 @@ public class UserController {
 
 
     @GetMapping("{id}/activate")
-    public String activateUser(@PathVariable Long id){
+    public String activateUser(@PathVariable Long id) {
         userService.activateUser(id);
         return "redirect:/login";
     }

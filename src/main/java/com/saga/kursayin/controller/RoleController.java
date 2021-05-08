@@ -4,7 +4,6 @@ import com.saga.kursayin.service.RoleService;
 import com.saga.kursayin.service.dto.RoleDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +35,7 @@ public class RoleController {
 
     @PutMapping("/{id}")
     public ResponseEntity<RoleDto> updateRole(@PathVariable Long id,
-                                                @RequestBody RoleDto roleDto) {
+                                              @RequestBody RoleDto roleDto) {
         RoleDto dto = roleService.update(roleDto, id);
         return ResponseEntity.ok(dto);
     }

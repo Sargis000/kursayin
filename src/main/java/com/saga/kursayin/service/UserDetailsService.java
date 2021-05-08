@@ -2,10 +2,8 @@ package com.saga.kursayin.service;
 
 import com.saga.kursayin.common.exeptions.UserDetailsNotFoundException;
 import com.saga.kursayin.persistence.entity.UserDetailsEntity;
-import com.saga.kursayin.persistence.entity.UserEntity;
 import com.saga.kursayin.persistence.repository.UserDetailsRepository;
 import com.saga.kursayin.service.dto.UserDetailsDto;
-import com.saga.kursayin.service.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

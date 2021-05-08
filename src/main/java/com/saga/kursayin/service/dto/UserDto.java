@@ -5,7 +5,6 @@ import com.saga.kursayin.persistence.entity.UserDetailsEntity;
 import com.saga.kursayin.persistence.entity.UserEntity;
 import com.sun.istack.NotNull;
 import lombok.Data;
-import org.springframework.util.CollectionUtils;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
@@ -32,7 +31,7 @@ public class UserDto {
     @Valid
     private UserDetailsDto userDetails;
 
-    public static UserDto mapEntityToDto(UserEntity userEntity){
+    public static UserDto mapEntityToDto(UserEntity userEntity) {
         UserDto dto = new UserDto();
         dto.setId(userEntity.getId());
         dto.setUsername(userEntity.getUsername());
@@ -40,13 +39,13 @@ public class UserDto {
         dto.setIsActive(userEntity.getIsActive());
         dto.setEmail(userEntity.getEmail());
         UserDetailsEntity userDetailsEntity = userEntity.getUserDetailsEntity();
-        if(userDetailsEntity!=null){
+        if (userDetailsEntity != null) {
             dto.setUserDetails(UserDetailsDto.mapEntityToDto(userEntity.getUserDetailsEntity()));
         }
         return dto;
     }
 
-    public static UserEntity mapDtoToEntity(UserDto userDto){
+    public static UserEntity mapDtoToEntity(UserDto userDto) {
         UserEntity userEntity = new UserEntity();
         userEntity.setId(userDto.getId());
         userEntity.setPassword(userDto.getPassword());

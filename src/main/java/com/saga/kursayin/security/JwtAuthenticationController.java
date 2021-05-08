@@ -1,14 +1,11 @@
 package com.saga.kursayin.security;
 
-import com.saga.kursayin.service.dto.UserDto;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -41,20 +38,20 @@ public class JwtAuthenticationController {
     @PostMapping()
     public String createAuthenticationToken(@ModelAttribute("jwtRequest") JwtRequest authenticationRequest) {
 
-        try{
+        try {
             authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
             final UserDetails userDetails = userDetailsService
                     .loadUserByUsername(authenticationRequest.getUsername());
 
             final String token = jwtTokenUtil.generateToken(userDetails);
 
-        } catch(Exception e){
+        } catch (Exception e) {
             return "redirect:/login?badCredentials";
         }
-        return "accountPage";
+        return "index";
     }
 
-    private void authenticate(String username, String password) throws DisabledException, BadCredentialsException{
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+    private void authenticate(String username, String password) throws DisabledException, BadCredentialsException {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
     }
 }

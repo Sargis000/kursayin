@@ -14,20 +14,20 @@ public class UserDetailsDto {
     private Long id;
 
     @NotEmpty(message = "FirstName should not be empty")
-    @Size(min = 2,max = 30,message = "FirstName should be between 2 and 30 characters")
-    private String  firstName;
+    @Size(min = 2, max = 30, message = "FirstName should be between 2 and 30 characters")
+    private String firstName;
 
     @NotEmpty(message = "LastName should not be empty")
-    @Size(min = 2,max = 30,message = "LastName should be between 2 and 30 characters")
+    @Size(min = 2, max = 30, message = "LastName should be between 2 and 30 characters")
     private String lastName;
 
-    @Pattern(regexp = "^(([+374]{4}|[0]{1}))?([1-9]{2})(\\d{6})$",message = "Phone should be valid")
+    @Pattern(regexp = "^(([+374]{4}|[0]{1}))?([1-9]{2})(\\d{6})$", message = "Phone should be valid")
     private String phoneNumber;
 
-    @Min(value = 0,message = "Age should be greater than 0")
+    @Min(value = 0, message = "Age should be greater than 0")
     private Integer age;
 
-    public static UserDetailsDto mapEntityToDto(UserDetailsEntity userDetailsEntity){
+    public static UserDetailsDto mapEntityToDto(UserDetailsEntity userDetailsEntity) {
         UserDetailsDto dto = new UserDetailsDto();
         dto.setId(userDetailsEntity.getId());
         dto.setFirstName(userDetailsEntity.getFirstName());
@@ -37,7 +37,7 @@ public class UserDetailsDto {
         return dto;
     }
 
-    public static UserDetailsEntity mapDtoToEntity(UserDetailsDto userDetailsDto){
+    public static UserDetailsEntity mapDtoToEntity(UserDetailsDto userDetailsDto) {
         UserDetailsEntity userDetailsEntity = new UserDetailsEntity();
         userDetailsEntity.setFirstName(userDetailsDto.getFirstName());
         userDetailsEntity.setLastName(userDetailsDto.getLastName());
