@@ -62,6 +62,10 @@ public class UserController {
         }
     }
 
+    @GetMapping("/accountPage")
+    public String showAccountPage(){
+        return "index";
+    }
 
     @PostMapping("/{id}/changepassword")
     public String changePassword(@ModelAttribute UserDto userDto) {
